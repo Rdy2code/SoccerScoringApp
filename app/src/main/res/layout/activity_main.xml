@@ -135,7 +135,9 @@
                 android:layout_gravity="center"
                 android:background="#b2dfdb"
                 android:textAppearance="?android:textAppearanceLarge"
-                android:textColor="#ad1457"></Chronometer>
+                android:textColor="#ad1457">
+
+            </Chronometer>
 
             <View
                 android:layout_width="1dp"

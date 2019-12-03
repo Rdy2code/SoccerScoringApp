@@ -12,25 +12,52 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Declare global variable score for Teams A and B.
      */
-    int scoreTeamA = 0;
-    int scoreTeamB = 0;
-    int shotsTeamA = 0;
-    int yellowTeamA = 0;
-    int redTeamA = 0;
-    int shotsTeamB = 0;
-    int yellowTeamB = 0;
-    int redTeamB = 0;
-
+    private int scoreTeamA = 0;
+    private int scoreTeamB = 0;
+    private int shotsTeamA = 0;
+    private int yellowTeamA = 0;
+    private int redTeamA = 0;
+    private int shotsTeamB = 0;
+    private int yellowTeamB = 0;
+    private int redTeamB = 0;
 
     private Chronometer chronometer;
     private boolean isStart;
+    private TextView mScoreTeamATextView;
+    private TextView mScoreTeamBTextView;
+    private TextView mShotsTeamATextView;
+    private TextView mShotsTeamBTextView;
+    private TextView mYellowCardsTeamATextView;
+    private TextView mYellowCardsTeamBTextView;
+    private TextView mRedCardsTeamATextView;
+    private TextView mRedCardsTeamBTextView;
+    private TextView mHalfTextView;
+
+    private static final String SCORE_TEAM_A = "score-team-a";
+    private static final String SCORE_TEAM_B = "score-team-b";
+    private static final String SHOTS_TEAM_A = "shots-team-a";
+    private static final String SHOTS_TEAM_B = "shots-team-b";
+    private static final String YELLOW_CARDS_TEAM_A = "yellow-cards-team-a";
+    private static final String YELLOW_CARDS_TEAM_B = "yellow-cards-team-b";
+    private static final String RED_CARDS_TEAM_A = "red-cards-team-a";
+    private static final String RED_CARDS_TEAM_B = "red-cards-team-b";
+    private static final String HALF_TEXT = "half-text";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        chronometer = findViewById(R.id.chronometer);
+        chronometer = (Chronometer) findViewById(R.id.chronometer);
+        mScoreTeamATextView = (TextView) findViewById(R.id.team_a_score);
+        mScoreTeamBTextView = (TextView) findViewById(R.id.team_b_score);
+        mShotsTeamATextView = (TextView) findViewById(R.id.fc_shots);
+        mShotsTeamBTextView = (TextView) findViewById(R.id.opponent_shots);
+        mYellowCardsTeamATextView = (TextView) findViewById(R.id.fc_yellow_cards);
+        mYellowCardsTeamBTextView = (TextView) findViewById(R.id.opponent_yellow_cards);
+        mRedCardsTeamATextView = (TextView) findViewById(R.id.fc_red_cards);
+        mRedCardsTeamBTextView = (TextView) findViewById(R.id.opponent_red_cards);
+        mHalfTextView = (TextView) findViewById(R.id.half);
 
         chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
             @Override
@@ -38,6 +65,37 @@ public class MainActivity extends AppCompatActivity {
                 chronometer = chronometerChanged;
             }
         });
+
+        //Persist values in display on device rotation
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(SCORE_TEAM_A)) {
+                mScoreTeamATextView.setText(savedInstanceState.getString(SCORE_TEAM_A));
+            }
+            if (savedInstanceState.containsKey(SCORE_TEAM_B)) {
+                mScoreTeamBTextView.setText(savedInstanceState.getString(SCORE_TEAM_B));
+            }
+            if (savedInstanceState.containsKey(SHOTS_TEAM_A)) {
+                mShotsTeamATextView.setText(savedInstanceState.getString(SHOTS_TEAM_A));
+            }
+            if (savedInstanceState.containsKey(SHOTS_TEAM_B)) {
+                mShotsTeamBTextView.setText(savedInstanceState.getString(SHOTS_TEAM_B));
+            }
+            if (savedInstanceState.containsKey(YELLOW_CARDS_TEAM_A)) {
+                mYellowCardsTeamATextView.setText(savedInstanceState.getString(YELLOW_CARDS_TEAM_A));
+            }
+            if (savedInstanceState.containsKey(YELLOW_CARDS_TEAM_B)) {
+                mYellowCardsTeamBTextView.setText(savedInstanceState.getString(YELLOW_CARDS_TEAM_B));
+            }
+            if (savedInstanceState.containsKey(RED_CARDS_TEAM_A)) {
+                mYellowCardsTeamATextView.setText(savedInstanceState.getString(RED_CARDS_TEAM_A));
+            }
+            if (savedInstanceState.containsKey(RED_CARDS_TEAM_B)) {
+                mYellowCardsTeamBTextView.setText(savedInstanceState.getString(RED_CARDS_TEAM_B));
+            }
+            if (savedInstanceState.containsKey(HALF_TEXT)) {
+                mHalfTextView.setText(savedInstanceState.getString(HALF_TEXT));
+            }
+        }
     }
 
     public void startStopChronometer(View view){
@@ -135,80 +193,70 @@ public class MainActivity extends AppCompatActivity {
      * Display the given score for Team A.
      */
     public void displayForTeamA (int score) {
-        TextView scoreView = (TextView) findViewById(R.id.team_a_score);
-        scoreView.setText(String.valueOf(score));
+        mScoreTeamATextView.setText(String.valueOf(score));
     }
 
     /**
      * Display shots for Team FC.
      */
     public void displayShotsForTeamA (int score) {
-        TextView scoreView = (TextView) findViewById(R.id.fc_shots);
-        scoreView.setText(String.valueOf(score));
+        mShotsTeamATextView.setText(String.valueOf(score));
     }
 
     /**
      * Display yellow cards for Team FC.
      */
     public void displayYellowForTeamA (int score) {
-        TextView scoreView = (TextView) findViewById(R.id.fc_yellow_cards);
-        scoreView.setText(String.valueOf(score));
+        mYellowCardsTeamATextView.setText(String.valueOf(score));
     }
 
     /**
      * Display red cards for Team FC.
      */
     public void displayRedForTeamA (int score) {
-        TextView scoreView = (TextView) findViewById(R.id.fc_red_cards);
-        scoreView.setText(String.valueOf(score));
+        mRedCardsTeamATextView.setText(String.valueOf(score));
     }
 
     /**
      * Display the given score for Team B.
      */
     public void displayForTeamB (int score) {
-        TextView scoreView = (TextView) findViewById(R.id.team_b_score);
-        scoreView.setText(String.valueOf(score));
+        mScoreTeamBTextView.setText(String.valueOf(score));
     }
 
     /**
      * Display shots for opponent.
      */
     public void displayShotsForTeamB (int score) {
-        TextView scoreView = (TextView) findViewById(R.id.opponent_shots);
-        scoreView.setText(String.valueOf(score));
+        mShotsTeamBTextView.setText(String.valueOf(score));
     }
 
     /**
      * Display yellow cards for opponent.
      */
     public void displayYellowForTeamB (int score) {
-        TextView scoreView = (TextView) findViewById(R.id.opponent_yellow_cards);
-        scoreView.setText(String.valueOf(score));
+        mYellowCardsTeamBTextView.setText(String.valueOf(score));
     }
 
     /**
      * Display red cards for opponent.
      */
     public void displayRedForTeamB (int score) {
-        TextView scoreView = (TextView) findViewById(R.id.opponent_red_cards);
-        scoreView.setText(String.valueOf(score));
+        mRedCardsTeamBTextView.setText(String.valueOf(score));
     }
 
     /**
      * Display first half
      */
     public void displayHalf1 (String half) {
-        TextView scoreView = (TextView) findViewById(R.id.half);
-        scoreView.setText(String.valueOf(half));
+        mHalfTextView.setText(String.valueOf(half));
     }
 
     /**
      * Display second half
      */
     public void displayHalf2 (String half) {
-        TextView scoreView = (TextView) findViewById(R.id.half);
-        scoreView.setText(String.valueOf(half));
+        mHalfTextView.setText(String.valueOf(half));
     }
 
     /**
@@ -231,5 +279,20 @@ public class MainActivity extends AppCompatActivity {
         displayShotsForTeamB(shotsTeamB);
         displayYellowForTeamB(yellowTeamB);
         displayRedForTeamB(redTeamB);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(SCORE_TEAM_A, mScoreTeamATextView.getText().toString());
+        outState.putString(SCORE_TEAM_B, mScoreTeamBTextView.getText().toString());
+        outState.putString(SHOTS_TEAM_A, mShotsTeamATextView.getText().toString());
+        outState.putString(SHOTS_TEAM_B, mShotsTeamBTextView.getText().toString());
+        outState.putString(YELLOW_CARDS_TEAM_A, mYellowCardsTeamATextView.getText().toString());
+        outState.putString(YELLOW_CARDS_TEAM_B, mYellowCardsTeamBTextView.getText().toString());
+        outState.putString(RED_CARDS_TEAM_A, mYellowCardsTeamATextView.getText().toString());
+        outState.putString(RED_CARDS_TEAM_B, mYellowCardsTeamBTextView.getText().toString());
+        outState.putString(HALF_TEXT, mHalfTextView.getText().toString());
+
     }
 }
