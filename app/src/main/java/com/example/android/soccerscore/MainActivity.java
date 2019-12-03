@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private int yellowTeamB = 0;
     private int redTeamB = 0;
 
-    private Chronometer chronometer;
+    private Chronometer mChronometer;
     private boolean isStart;
     private TextView mScoreTeamATextView;
     private TextView mScoreTeamBTextView;
@@ -42,13 +42,14 @@ public class MainActivity extends AppCompatActivity {
     private static final String RED_CARDS_TEAM_A = "red-cards-team-a";
     private static final String RED_CARDS_TEAM_B = "red-cards-team-b";
     private static final String HALF_TEXT = "half-text";
+    private static final String CHRONO_TIME = "chronotime";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        chronometer = (Chronometer) findViewById(R.id.chronometer);
+        mChronometer = (Chronometer) findViewById(R.id.chronometer);
         mScoreTeamATextView = (TextView) findViewById(R.id.team_a_score);
         mScoreTeamBTextView = (TextView) findViewById(R.id.team_b_score);
         mShotsTeamATextView = (TextView) findViewById(R.id.fc_shots);
@@ -59,10 +60,10 @@ public class MainActivity extends AppCompatActivity {
         mRedCardsTeamBTextView = (TextView) findViewById(R.id.opponent_red_cards);
         mHalfTextView = (TextView) findViewById(R.id.half);
 
-        chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+        mChronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
             @Override
             public void onChronometerTick(Chronometer chronometerChanged) {
-                chronometer = chronometerChanged;
+                mChronometer = chronometerChanged;
             }
         });
 
@@ -95,16 +96,20 @@ public class MainActivity extends AppCompatActivity {
             if (savedInstanceState.containsKey(HALF_TEXT)) {
                 mHalfTextView.setText(savedInstanceState.getString(HALF_TEXT));
             }
+            if (savedInstanceState.containsKey(CHRONO_TIME)) {
+                mChronometer.setBase(savedInstanceState.getLong(CHRONO_TIME));
+                mChronometer.start();
+            }
         }
     }
 
     public void startStopChronometer(View view){
         if(isStart){
-            chronometer.stop();
+            mChronometer.stop();
             isStart = false;
         }else{
-            chronometer.setBase(SystemClock.elapsedRealtime());
-            chronometer.start();
+            mChronometer.setBase(SystemClock.elapsedRealtime());
+            mChronometer.start();
             isStart = true;
         }
     }
@@ -293,6 +298,6 @@ public class MainActivity extends AppCompatActivity {
         outState.putString(RED_CARDS_TEAM_A, mYellowCardsTeamATextView.getText().toString());
         outState.putString(RED_CARDS_TEAM_B, mYellowCardsTeamBTextView.getText().toString());
         outState.putString(HALF_TEXT, mHalfTextView.getText().toString());
-
+        outState.putLong(CHRONO_TIME, mChronometer.getBase());
     }
 }
